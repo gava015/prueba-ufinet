@@ -1,8 +1,8 @@
-package com.ufinet.autos.springboot.webapp.springboot_web.repository;
+package com.ufinet.autos.springboot.webapp.springboot_web.infrastructure.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.ufinet.autos.springboot.webapp.springboot_web.model.Car;
-import com.ufinet.autos.springboot.webapp.springboot_web.model.User;
+import com.ufinet.autos.springboot.webapp.springboot_web.domain.entity.Car;
+import com.ufinet.autos.springboot.webapp.springboot_web.domain.entity.User;
 import java.util.List;
 
 public interface CarRepository extends JpaRepository<Car, Long> {

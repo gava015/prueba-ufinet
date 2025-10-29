@@ -1,7 +1,9 @@
-package com.ufinet.autos.springboot.webapp.springboot_web.model;
+package com.ufinet.autos.springboot.webapp.springboot_web.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "cars")

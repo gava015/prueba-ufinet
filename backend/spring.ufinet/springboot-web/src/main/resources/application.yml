@@ -1,0 +1,7 @@
+application:
+  security:
+    jwt:
+      secret_key: ${JWT_SECRET_KEY}
+      expiration: 86400000 # a day
+      refresh_token:
+        expiration: 604800000 # 7 days
