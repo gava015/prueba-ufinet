@@ -1,4 +1,4 @@
-package com.ufinet.autos.springboot.webapp.springboot_web.domain.service.dto;
+package com.ufinet.autos.springboot.webapp.springboot_web.adapter.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

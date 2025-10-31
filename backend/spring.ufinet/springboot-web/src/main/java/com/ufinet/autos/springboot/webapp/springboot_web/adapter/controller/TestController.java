@@ -1,4 +1,4 @@
-package com.ufinet.autos.springboot.webapp.springboot_web.infrastructure.framework.controller;
+package com.ufinet.autos.springboot.webapp.springboot_web.adapter.controller;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
