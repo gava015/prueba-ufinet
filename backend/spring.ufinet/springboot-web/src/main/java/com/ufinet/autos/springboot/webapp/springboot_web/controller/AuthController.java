@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
-    
     private final AuthService service;
 
     @PostMapping("/register")
@@ -58,6 +56,6 @@ public class AuthController {
 
 
     
-}
+
 
 
