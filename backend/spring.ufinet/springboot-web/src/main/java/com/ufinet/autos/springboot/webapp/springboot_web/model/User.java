@@ -1,7 +1,9 @@
 package com.ufinet.autos.springboot.webapp.springboot_web.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
+@Builder
 @Entity
 @Table(name = "users") // asegúrate de que tu tabla en MySQL se llame "users"
 public class User {

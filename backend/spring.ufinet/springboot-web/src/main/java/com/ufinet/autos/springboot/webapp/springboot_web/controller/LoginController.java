@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.ufinet.autos.springboot.webapp.springboot_web.model.LoginRequest;
 import com.ufinet.autos.springboot.webapp.springboot_web.model.User;
 import com.ufinet.autos.springboot.webapp.springboot_web.repository.UserRepository;
 
@@ -23,12 +22,12 @@ public class LoginController {
         User user = userRepository.findByUsernameAndPassword(request.getUsername(), request.getPassword());
 
         if (user != null) {
-            // Crear respuesta con los datos del usuario
+         
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("message", "Login exitoso");
             response.put("userId", user.getId());
-            response.put("username", user.getUsername()); // Nota: hay que corregir esto
+            response.put("username", user.getUsername()); 
             
             return ResponseEntity.ok(response);
         } else {
