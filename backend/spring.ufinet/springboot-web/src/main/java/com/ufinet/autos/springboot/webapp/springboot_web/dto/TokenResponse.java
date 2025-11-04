@@ -1,4 +1,4 @@
-package com.ufinet.autos.springboot.webapp.springboot_web.controller;
+package com.ufinet.autos.springboot.webapp.springboot_web.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record TokenResponse(

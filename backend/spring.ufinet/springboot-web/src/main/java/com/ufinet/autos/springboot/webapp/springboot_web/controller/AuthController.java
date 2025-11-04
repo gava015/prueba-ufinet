@@ -2,6 +2,8 @@ package com.ufinet.autos.springboot.webapp.springboot_web.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ufinet.autos.springboot.webapp.springboot_web.dto.RegisterRequest;
+import com.ufinet.autos.springboot.webapp.springboot_web.dto.TokenResponse;
 import com.ufinet.autos.springboot.webapp.springboot_web.service.AuthService;
 
 import lombok.RequiredArgsConstructor;

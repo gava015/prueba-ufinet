@@ -3,8 +3,8 @@ package com.ufinet.autos.springboot.webapp.springboot_web.service;
 import org.springframework.stereotype.Service;
 
 import com.ufinet.autos.springboot.webapp.springboot_web.controller.LoginRequest;
-import com.ufinet.autos.springboot.webapp.springboot_web.controller.RegisterRequest;
-import com.ufinet.autos.springboot.webapp.springboot_web.controller.TokenResponse;
+import com.ufinet.autos.springboot.webapp.springboot_web.dto.RegisterRequest;
+import com.ufinet.autos.springboot.webapp.springboot_web.dto.TokenResponse;
 import com.ufinet.autos.springboot.webapp.springboot_web.model.User;
 import com.ufinet.autos.springboot.webapp.springboot_web.repository.Token;
 import com.ufinet.autos.springboot.webapp.springboot_web.repository.UserRepository;
