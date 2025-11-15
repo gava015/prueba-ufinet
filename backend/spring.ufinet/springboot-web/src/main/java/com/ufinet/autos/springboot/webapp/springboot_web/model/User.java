@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Builder
 @Entity
-@Table(name = "users") // asegúrate de que tu tabla en MySQL se llame "users"
+@Table(name = "users") 
 public class User {
 
     @Id
@@ -15,7 +15,7 @@ public class User {
     private String username;
     private String password;
 
-    // Getters y setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

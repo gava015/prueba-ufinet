@@ -2,6 +2,7 @@ package com.ufinet.autos.springboot.webapp.springboot_web.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ufinet.autos.springboot.webapp.springboot_web.dto.LoginRequest;
 import com.ufinet.autos.springboot.webapp.springboot_web.dto.RegisterRequest;
 import com.ufinet.autos.springboot.webapp.springboot_web.dto.TokenResponse;
 import com.ufinet.autos.springboot.webapp.springboot_web.service.AuthService;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.http.HttpHeaders;
 
 @RestController
 @RequestMapping("/auth")

@@ -1,7 +1,11 @@
 package com.ufinet.autos.springboot.webapp.springboot_web.dto;
 
-public record RegisterRequest(
+
+
+
+public record LoginRequest(
+
     String username,
     String password
-) {
-}
+){}
+

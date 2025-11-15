@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.ufinet.autos.springboot.webapp.springboot_web.dto.LoginRequest;
 import com.ufinet.autos.springboot.webapp.springboot_web.model.User;
 import com.ufinet.autos.springboot.webapp.springboot_web.repository.UserRepository;
 
@@ -19,7 +20,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        User user = userRepository.findByUsernameAndPassword(request.getUsername(), request.getPassword());
+        User user = userRepository.findByUsernameAndPassword(request.username(), request.password());
 
         if (user != null) {
          
