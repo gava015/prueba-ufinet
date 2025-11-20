@@ -1,5 +1,6 @@
 package com.ufinet.autos.springboot.webapp.springboot_web.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.ufinet.autos.springboot.webapp.springboot_web.dto.LoginRequest;
@@ -15,9 +16,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
 
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final TokenRepository tokenRepository;
+    @Autowired
     private final PasswordEncoder passwordEncoder;
+    @Autowired
     private final JwtService jwtService;
 
     public TokenResponse register(RegisterRequest request){

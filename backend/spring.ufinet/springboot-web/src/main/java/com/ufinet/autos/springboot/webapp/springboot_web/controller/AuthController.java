@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 
 @RestController
@@ -22,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 @RequiredArgsConstructor
 public class AuthController {
 
+    @Autowired
     private final AuthService service;
 
     @PostMapping("/register")

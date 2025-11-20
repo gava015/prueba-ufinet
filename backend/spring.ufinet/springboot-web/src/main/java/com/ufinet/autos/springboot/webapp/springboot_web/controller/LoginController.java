@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5183")
+@CrossOrigin(origins = "http://localhost:8081")
 public class LoginController {
 
     @Autowired
