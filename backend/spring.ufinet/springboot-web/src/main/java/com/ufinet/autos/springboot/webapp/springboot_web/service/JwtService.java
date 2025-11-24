@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ufinet.autos.springboot.webapp.springboot_web.model.User;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -26,6 +27,15 @@ public class JwtService {
 
        public JwtService() {
         // Constructor vacío requerido por Spring
+    }
+
+    public String extractUsername(final String token){
+        final Claims jwtToken = Jwts.parser()
+                .verifyWith(getSingInKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return  jwtToken.getSubject();      
     }
 
     public String generateToken(final User user){
@@ -48,6 +58,24 @@ public class JwtService {
                 .compact();
 
     }  
+
+    public boolean isTokenValid(final String token, User user){
+        final String username= extractUsername(token);
+        return (username.equals(user.getUsername())) && !isTokenExpired(token);
+    }
+
+
+    private boolean isTokenExpired(final String token){
+        return extractExpiration(token).before(new Date()));
+    }
+
+    private Date extracExpiration(final String token){
+        final Claims jwtToken = Jwt.parser()
+                
+    }
+
+
+
 
     
     private SecretKey getSingInKey(){
