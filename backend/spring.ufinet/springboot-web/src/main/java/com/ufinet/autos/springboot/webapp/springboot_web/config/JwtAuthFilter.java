@@ -2,16 +2,16 @@ package com.ufinet.autos.springboot.webapp.springboot_web.config;
 
 import java.io.IOException;
 import java.util.Optional;
-
-import org.apache.catalina.User;
 import org.springframework.http.HttpHeaders;
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
+import com.ufinet.autos.springboot.webapp.springboot_web.model.User;
 import com.ufinet.autos.springboot.webapp.springboot_web.repository.Token;
 import com.ufinet.autos.springboot.webapp.springboot_web.repository.TokenRepository;
 import com.ufinet.autos.springboot.webapp.springboot_web.repository.UserRepository;
@@ -70,21 +70,18 @@ public class JwtAuthFilter extends OncePerRequestFilter{ //-> cada vez que se ha
         }
 
         final boolean isTokenValid = jwtService.isTokenValid(jwtToken, user.get());
+        if (!isTokenValid){
+            return;
+        }
 
+        final var authToken = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                        null,
+                userDetails.getAuthorities()
+        );
+        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authToken);
 
-        
-
-
-
-
-
-
-
-
-        
-
-
-    }
-
-    
+        filterChain.doFilter(request, response);
+    }  
 }

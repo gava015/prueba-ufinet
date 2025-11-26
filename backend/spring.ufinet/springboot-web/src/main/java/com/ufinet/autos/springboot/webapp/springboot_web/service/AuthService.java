@@ -31,7 +31,7 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.password()))
                 .build();
         var savedUser = userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user); //TODO: Generar el token
+        var jwtToken = jwtService.generateToken(user); 
         var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(savedUser, jwtToken);
         return new TokenResponse(jwtToken, refreshToken);
@@ -54,9 +54,7 @@ public class AuthService {
 
     }
     
-
     public TokenResponse refreshToken(final String authHeader){
         return null;
     }
-    
 }

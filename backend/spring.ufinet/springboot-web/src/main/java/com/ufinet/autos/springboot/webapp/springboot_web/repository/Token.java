@@ -1,7 +1,6 @@
 package com.ufinet.autos.springboot.webapp.springboot_web.repository;
 
 import com.ufinet.autos.springboot.webapp.springboot_web.model.User;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,9 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-
-
 
 @Data
 @Builder

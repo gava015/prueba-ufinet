@@ -2,19 +2,17 @@ package com.ufinet.autos.springboot.webapp.springboot_web.service;
 
 import java.sql.Date;
 import java.util.Map;
-
 import javax.crypto.SecretKey;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import com.ufinet.autos.springboot.webapp.springboot_web.model.User;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @Service
 public class JwtService {
 
@@ -24,10 +22,6 @@ public class JwtService {
     private String jwtExpiration;
     @Value("${jwt.refresh-token}")
     private String refreshExpiration;
-
-       public JwtService() {
-        // Constructor vacío requerido por Spring
-    }
 
     public String extractUsername(final String token){
         final Claims jwtToken = Jwts.parser()
@@ -46,7 +40,6 @@ public class JwtService {
         return buildToken(user,refreshExpiration);
     }
 
-    
     private String buildToken(final User user, final String expiration){
 
         return Jwts.builder()
@@ -54,7 +47,7 @@ public class JwtService {
                 .claims(Map.of("name", user.getUsername()))
                 .subject(user.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-   //             .expiration(new Date(System.currentTimeMillis() + expiration))
+               //.expiration(new Date(System.currentTimeMillis() + expiration))
                 .compact();
 
     }  
@@ -64,24 +57,23 @@ public class JwtService {
         return (username.equals(user.getUsername())) && !isTokenExpired(token);
     }
 
-
     private boolean isTokenExpired(final String token){
-        return extractExpiration(token).before(new Date()));
+        return extractExpiration(token).before(new java.util.Date());
     }
 
-    private Date extracExpiration(final String token){
-        final Claims jwtToken = Jwt.parser()
+    private Date extractExpiration(final String token){
+        final Claims jwtToken = Jwts.parser()
+               // .verifyWith(getSingInKey())
+               .build()
+               .parseSignedClaims(token)
+               .getPayload();
+        return jwtToken.getExpiration;
                 
     }
 
-
-
-
-    
     private SecretKey getSingInKey(){
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
 
     }
-
 }
