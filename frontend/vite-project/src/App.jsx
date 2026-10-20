@@ -11,7 +11,7 @@ function App() {
     setMensaje("Conectando...");
 
     try {
-      console.log("Enviando request a:", "http://localhost:8080/login");
+      console.log("Enviando request a:", "http://localhost:8081/auth/login");
       console.log("Datos:", { username, password });
 
       const response = await fetch("http://localhost:8080/login", {
