@@ -1,79 +1,73 @@
 package com.ufinet.autos.springboot.webapp.springboot_web.service;
 
-import java.sql.Date;
-import java.util.Map;
+import java.time.Instant;
+import java.util.Date;
 import javax.crypto.SecretKey;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import com.ufinet.autos.springboot.webapp.springboot_web.model.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 @Service
 public class JwtService {
 
     @Value("${jwt.secret-key}")
     private String secretKey;
-    @Value("${jwt.expiration}")
-    private String jwtExpiration;
-    @Value("${jwt.refresh-token}")
-    private String refreshExpiration;
 
-    public String extractUsername(final String token){
-        final Claims jwtToken = Jwts.parser()
-                .verifyWith(getSingInKey())
+    @Value("${jwt.expiration}")
+    private long jwtExpirationMillis;
+
+    @Value("${jwt.refresh-token}")
+    private long refreshExpirationMillis;
+
+    public String extractUsername(final String token) {
+        final Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-        return  jwtToken.getSubject();      
+        return claims.getSubject();
     }
 
-    public String generateToken(final User user){
-        return buildToken(user,jwtExpiration); 
+    public String generateToken(final User user) {
+        return buildToken(user, jwtExpirationMillis);
     }
 
-    public String generateRefreshToken(final User user){
-        return buildToken(user,refreshExpiration);
+    public String generateRefreshToken(final User user) {
+        return buildToken(user, refreshExpirationMillis);
     }
 
-    private String buildToken(final User user, final String expiration){
+    private String buildToken(final User user, final long expirationMillis) {
+        if (expirationMillis <= 0) {
+            throw new IllegalStateException("La duración del token debe ser mayor que cero");
+        }
 
-        return Jwts.builder()
-                .id(user.getId().toString())
-                .claims(Map.of("name", user.getUsername()))
+        final Instant now = Instant.now();
+        final var builder = Jwts.builder()
                 .subject(user.getUsername())
-                .issuedAt(new Date(System.currentTimeMillis()))
-               //.expiration(new Date(System.currentTimeMillis() + expiration))
+                .claim("name", user.getUsername())
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(now.plusMillis(expirationMillis)));
+
+        // Los usuarios registrados ya tienen ID después de guardarse en la base de datos.
+        // Omitirlo cuando aún no existe evita que la creación del token falle.
+        if (user.getId() != null) {
+            builder.id(user.getId().toString());
+        }
+
+        return builder
+                .signWith(getSigningKey())
                 .compact();
-
-    }  
-
-    public boolean isTokenValid(final String token, User user){
-        final String username= extractUsername(token);
-        return (username.equals(user.getUsername())) && !isTokenExpired(token);
     }
 
-    private boolean isTokenExpired(final String token){
-        return extractExpiration(token).before(new java.util.Date());
-    }
-
-    private Date extractExpiration(final String token){
-        final Claims jwtToken = Jwts.parser()
-               // .verifyWith(getSingInKey())
-               .build()
-               .parseSignedClaims(token)
-               .getPayload();
-        return jwtToken.getExpiration;
-                
-    }
-
-    private SecretKey getSingInKey(){
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+    private SecretKey getSigningKey() {
+        final byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
-
     }
 }

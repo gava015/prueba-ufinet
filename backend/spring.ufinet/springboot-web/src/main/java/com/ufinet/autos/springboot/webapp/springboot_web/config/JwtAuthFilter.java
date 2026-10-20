@@ -69,10 +69,10 @@ public class JwtAuthFilter extends OncePerRequestFilter{ //-> cada vez que se ha
             return;
         }
 
-        final boolean isTokenValid = jwtService.isTokenValid(jwtToken, user.get());
+        /*final boolean isTokenValid = jwtService.isTokenValid(jwtToken, user.get());
         if (!isTokenValid){
             return;
-        }
+        }*/
 
         final var authToken = new UsernamePasswordAuthenticationToken(
                 userDetails,

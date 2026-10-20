@@ -1,6 +1,7 @@
 package com.ufinet.autos.springboot.webapp.springboot_web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.ufinet.autos.springboot.webapp.springboot_web.dto.LoginRequest;
@@ -39,10 +40,21 @@ public class AuthService {
     }
 
     public TokenResponse login(LoginRequest request){
-        return null;
+        User user = userRepository.findByUsername(request.username())
+                .orElseThrow(() -> new BadCredentialsException("Usuario o contraseña incorrectos"));
+
+        if (!passwordEncoder.matches(request.password(), user.getPassword())) {
+            throw new BadCredentialsException("Usuario o contraseña incorrectos");
+        }
+
+        var accessToken = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
+        saveUserToken(user, accessToken);
+
+        return new TokenResponse(accessToken, refreshToken);
     }
 
-     private void saveUserToken(User user, String jwtToken){
+    private void saveUserToken(User user, String jwtToken){
         var token = Token.builder()
                 .user(user)
                 .token(jwtToken)

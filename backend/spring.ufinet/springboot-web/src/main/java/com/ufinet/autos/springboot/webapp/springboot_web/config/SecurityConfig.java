@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import jakarta.servlet.DispatcherType;
 
 import com.ufinet.autos.springboot.webapp.springboot_web.repository.TokenRepository;
 
@@ -32,7 +33,8 @@ public class SecurityConfig{
 
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                         req.requestMatchers("/auth/**")
+                         req.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                                 .requestMatchers("/auth/**")
                                  .permitAll()
                                  .anyRequest()
                                  .authenticated()
