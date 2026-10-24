@@ -2,6 +2,7 @@ package com.ufinet.autos.springboot.webapp.springboot_web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.ufinet.autos.springboot.webapp.springboot_web.dto.LoginRequest;
@@ -11,6 +12,7 @@ import com.ufinet.autos.springboot.webapp.springboot_web.model.User;
 import com.ufinet.autos.springboot.webapp.springboot_web.repository.Token;
 import com.ufinet.autos.springboot.webapp.springboot_web.repository.TokenRepository;
 import com.ufinet.autos.springboot.webapp.springboot_web.repository.UserRepository;
+import com.ufinet.autos.springboot.webapp.springboot_web.exception.DuplicateUsernameException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -27,11 +29,23 @@ public class AuthService {
     private final JwtService jwtService;
 
     public TokenResponse register(RegisterRequest request){
-       var user = User.builder()
+        if (userRepository.existsByUsername(request.username())) {
+            throw new DuplicateUsernameException("Ese nombre de usuario ya está registrado.");
+        }
+
+        var user = User.builder()
                 .username(request.username())
                 .password(passwordEncoder.encode(request.password()))
                 .build();
-        var savedUser = userRepository.save(user);
+
+        User savedUser;
+        try {
+            savedUser = userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+         
+            throw new DuplicateUsernameException("Ese nombre de usuario ya está registrado.");
+        }
+
         var jwtToken = jwtService.generateToken(user); 
         var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(savedUser, jwtToken);
